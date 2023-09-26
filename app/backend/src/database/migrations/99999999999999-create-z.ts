@@ -16,3 +16,4 @@ export default {
     return queryInterface.dropTable('trybe_eval');
   },
 };
+//
