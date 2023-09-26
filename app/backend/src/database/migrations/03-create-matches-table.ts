@@ -2,11 +2,11 @@ import { Model, QueryInterface, DataTypes } from "sequelize";
 
 interface IMatchers {
   id: number,
-  homeTeamId: number,
-  homeTeamGoals: number,
-  awayTeamId: number,
-  awayTeamGoals: number,
-  inProgress: boolean,
+  home_team_id: number,
+  home_team_goals: number,
+  away_team_id: number,
+  away_team_goals: number,
+  in_progress: boolean,
 }
 
 export default {
@@ -18,31 +18,31 @@ export default {
         autoIncrement: true,
         primaryKey: true,
       },
-      homeTeamId: {
+      home_team_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'team',
+          model: 'teams',
           key: 'id',
         },
       },
-      homeTeamGoals: {
+      home_team_goals: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      away_team_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'team',
+          model: 'teams',
           key: 'id',
         },
       },
-      awayTeamId: {
+      away_team_goals: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      awayTeamGoals: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      inProgress: {
+      in_progress: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
