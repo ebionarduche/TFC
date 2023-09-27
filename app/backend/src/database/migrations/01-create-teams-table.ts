@@ -1,6 +1,6 @@
 import { Model, QueryInterface, DataTypes } from "sequelize";
 
-interface ITeams {
+export interface ITeams {
   id: number,
   team_name: string
 }
