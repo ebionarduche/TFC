@@ -9,10 +9,11 @@ export default class UserService {
 
   public async login(email: string, password: string): Promise<ServiceResponse<{ token: string }>> {
     const user = await this.userModel.findByEmail(email);
-    if (!user) return { status: 'UNAUTHORIZED', data: { message: 'E-mail ou senha incorretos' } };
+    if (!user) return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     const isPassWordValid = await bcrypt.compare(password, user.password);
-    if (!isPassWordValid) {
-      return { status: 'UNAUTHORIZED', data: { message: 'Senha incorreta' } };
+    if (!isPassWordValid || email !== user.email) {
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' },
+      };
     }
     const token = jwt.sign({
       id: user.id,
