@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import Token from '../utils/JsonWebToken';
+
+export interface RequestWithRole extends Request {
+  role: JwtPayload;
+}
 
 export default class Validations {
   static validateLogin(req: Request, res: Response, next: NextFunction) {
@@ -23,7 +28,7 @@ export default class Validations {
     const token = authorization.split(' ')[1];
     const role = Token.verify(token);
     if (!role) return res.status(401).json({ message: 'Token must be a valid token' });
-    if (role) return res.status(200).json({ role });
+    if (typeof role !== 'boolean') (req as RequestWithRole).role = role;
 
     next();
   }

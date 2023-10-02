@@ -1,6 +1,6 @@
 import { Request, Router, Response } from 'express';
 import UserController from '../Controllers/UserController';
-import Validations from '../middlewares/Validations';
+import Validations, { RequestWithRole } from '../middlewares/Validations';
 
 const userController = new UserController();
 
@@ -12,6 +12,7 @@ router.post(
 
   (req: Request, res: Response) => userController.login(req, res),
 );
-router.get('/login/role', Validations.validateToken);
-
+router.get('/login/role', Validations.validateToken, (req: Request, res: Response) => {
+  res.status(200).json({ role: (req as RequestWithRole).role });
+});
 export default router;
