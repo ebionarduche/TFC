@@ -29,4 +29,9 @@ export default class MatchesModel {
     const data = await this.model.update({ inProgress: false }, { where: { id } });
     return data;
   }
+
+  async updateMatches(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    const data = await this.model.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    return data;
+  }
 }

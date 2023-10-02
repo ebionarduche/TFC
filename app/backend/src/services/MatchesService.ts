@@ -13,4 +13,14 @@ export default class MatchesService {
     if (affectedRows === 0) return '';
     return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
   }
+
+  public async updateMatches(
+    id: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) {
+    const [affectedRows] = await this.matchesModel.updateMatches(id, homeTeamGoals, awayTeamGoals);
+    if (affectedRows === 0) return '';
+    return { status: 'SUCCESSFUL', data: { message: 'Updated match' } };
+  }
 }
