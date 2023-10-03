@@ -20,6 +20,7 @@ router.patch(
 router.post(
   '/',
   Validations.validateToken,
+  Validations.validateMatches,
   (req: Request, res: Response) => matchesController.insertMatches(req, res),
 );
 
