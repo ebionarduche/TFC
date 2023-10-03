@@ -1,4 +1,4 @@
-import MatchesModel from '../models/MatchesModel';
+import MatchesModel, { IMatch } from '../models/MatchesModel';
 
 export default class MatchesService {
   constructor(private matchesModel = new MatchesModel()) {}
@@ -22,5 +22,10 @@ export default class MatchesService {
     const [affectedRows] = await this.matchesModel.updateMatches(id, homeTeamGoals, awayTeamGoals);
     if (affectedRows === 0) return '';
     return { status: 'SUCCESSFUL', data: { message: 'Updated match' } };
+  }
+
+  public async insertMatches(newMatch: IMatch) {
+    const ServiceResponse = await this.matchesModel.insertMatches(newMatch);
+    return { status: 'SUCCESSFUL', data: ServiceResponse };
   }
 }

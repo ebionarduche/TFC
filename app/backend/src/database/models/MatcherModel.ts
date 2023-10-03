@@ -3,13 +3,14 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
+  CreationOptional,
 } from 'sequelize';
 import db from '.';
 import Team from './TeamModel';
 
 class Matcher extends Model<InferAttributes<Matcher>,
 InferCreationAttributes<Matcher>> {
-  declare id: number;
+  declare id: CreationOptional<number>;;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
   declare awayTeamId: number;

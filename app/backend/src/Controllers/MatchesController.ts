@@ -23,4 +23,10 @@ export default class MatchesController {
       .updateMatches(Number(id), Number(homeTeamGoals), Number(awayTeamGoals));
     return res.status(200).json(ServiceResponse);
   }
+
+  public async insertMatches(req: Request, res: Response) {
+    const { body } = req;
+    const ServiceResponse = await this.matchesService.insertMatches({ ...body, inProgress: true });
+    res.status(201).json(ServiceResponse.data);
+  }
 }
