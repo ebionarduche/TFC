@@ -17,12 +17,6 @@ export default class LeaderboardsService {
     return [homeMatches, awayMatches];
   }
 
-  public async retornaoi() {
-    const matches = await this.model.findAll();
-    console.log(matches);
-    return 'oi';
-  }
-
   async calculateTotalGoals(id: number) {
     const [homeMatches, awayMatches] = await this.getMatches(id);
 
