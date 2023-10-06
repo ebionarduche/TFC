@@ -9,6 +9,7 @@ export default class LeaderboardController {
     const teamModel = new TeamModel();
     const teams = await teamModel.findAll();
     const serviceResponse = await this.leaderboardService.getLeaderboard(teams);
+    serviceResponse.sort((a, b) => b.totalPoints - a.totalPoints);
     return res.status(200).json(serviceResponse);
   }
 }

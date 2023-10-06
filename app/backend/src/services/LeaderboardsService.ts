@@ -56,14 +56,18 @@ export default class LeaderboardsService {
     const { totalGames, totalVictories, totalLosses } = await this.getGames(id);
     const totalDraws = totalGames - (totalVictories + totalLosses);
     const totalPoints = (totalVictories * 3) + totalDraws;
-    return totalPoints;
+    const efficiency = ((totalPoints / (totalGames * 3)) * 100).toFixed(2);
+    return {
+      efficiency,
+      totalPoints,
+    };
   }
 
   async getLeaderboard(teams: ITeams[]) {
     const leaderBoard = Promise.all(teams.map(async (team) => {
       const { goalsFavor, goalsOwn } = await this.calculateTotalGoals(team.id);
       const { totalGames, totalVictories, totalLosses } = await this.getGames(team.id);
-      const totalPoints = await this.calculatePoints(team.id);
+      const { totalPoints, efficiency } = await this.calculatePoints(team.id);
       return {
         name: team.teamName,
         totalPoints,
@@ -73,6 +77,8 @@ export default class LeaderboardsService {
         totalLosses,
         goalsFavor,
         goalsOwn,
+        efficiency,
+        goalsBalance: goalsFavor - goalsOwn,
       };
     }));
     return leaderBoard;
