@@ -12,35 +12,32 @@ export default class LeaderboardsService {
     });
 
     const homeMatches = matches.filter((match) => match.homeTeamId === id);
-    const awayMatches = matches.filter((match) => match.awayTeamId === id);
 
-    return [homeMatches, awayMatches];
-  }
+    return homeMatches;
+  } // ok
 
   async calculateTotalGoals(id: number) {
-    const [homeMatches, awayMatches] = await this.getMatches(id);
+    const homeMatches = await this.getMatches(id);
 
     const homeGoalsFavor = homeMatches.map(({ homeTeamGoals }) => homeTeamGoals)
       .reduce((acc, curr) => acc + curr, 0);
-    const awayGoalsFavor = awayMatches.map(({ awayTeamGoals }) => awayTeamGoals)
+    const awayGoalsFavor = homeMatches.map(({ awayTeamGoals }) => awayTeamGoals)
       .reduce((acc, curr) => acc + curr, 0);
     return {
-      goalsFavor: homeGoalsFavor + awayGoalsFavor,
-      goalsOwn: (awayGoalsFavor * 2),
+      goalsFavor: homeGoalsFavor,
+      goalsOwn: awayGoalsFavor,
     };
-  }
+  } // ok
 
   async getGames(id: number) {
-    const [homeMatches, awayMatches] = await this.getMatches(id);
-    const totalGames = homeMatches.length + awayMatches.length;
+    const homeMatches = await this.getMatches(id);
+    const totalGames = homeMatches.length;
 
-    const totalVictories = homeMatches.filter((match) =>
-      match.homeTeamGoals > match.awayTeamGoals).length + awayMatches
-      .filter((match) => match.awayTeamGoals > match.homeTeamGoals).length;
-
-    const totalLosses = homeMatches.filter((match) =>
-      match.awayTeamGoals > match.homeTeamGoals).length + awayMatches
+    const totalVictories = homeMatches
       .filter((match) => match.homeTeamGoals > match.awayTeamGoals).length;
+
+    const totalLosses = homeMatches
+      .filter((match) => match.awayTeamGoals > match.homeTeamGoals).length;
 
     return {
       totalGames, totalVictories, totalLosses };
@@ -71,8 +68,8 @@ export default class LeaderboardsService {
         totalLosses,
         goalsFavor,
         goalsOwn,
-        efficiency,
         goalsBalance: goalsFavor - goalsOwn,
+        efficiency,
       };
     }));
     return leaderBoard;
