@@ -1,4 +1,4 @@
-# Table de Campeonato de Futebol
+# TFC
 
 ## Descrição
 
